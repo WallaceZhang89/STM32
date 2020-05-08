@@ -28,7 +28,10 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include <SYSTEM/delay.h>
+#include <BSP/LED.h>
+#include <BSP/W25QXX.h>
+#include <string.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -48,7 +51,10 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+uint8_t wData[0x100];
+uint8_t rData[0x100];
+uint32_t i;
+uint8_t ID[2];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -78,7 +84,7 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-
+  delay_init(168);
   /* USER CODE END Init */
 
   /* Configure the system clock */
@@ -95,7 +101,10 @@ int main(void)
   MX_USART1_UART_Init();
   MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
-
+  HAL_TIM_Base_Start_IT(&htim3);
+  BSP_W25Qx_Init();
+  BSP_W25Qx_Read_ID(ID);
+  printf(" W25Qxxx ID is : 0x%02X 0x%02X \r\n\r\n",ID[0],ID[1]);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -105,6 +114,9 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+	LED1_Toggle;
+	printf("\n\r welcome to www.waveshere.com!!! \r\n");
+	delay_ms(200);
   }
   /* USER CODE END 3 */
 }
